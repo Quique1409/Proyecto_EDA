@@ -20,6 +20,20 @@ def switch_case(case):
     else:
         print("Ingresa una opción valida :)")
 
+def inventario():
+    #Aquí se muestran los distintos productos con sus unidades en existencia que se venden en la tienda
+    print("\n|-----------------------------------------------------------------------------|")
+    print("|      Perifericos       |      Componentes       | Videojuegos               |")
+    print("|------------------------|------------------------|---------------------------|")
+    print("|1.Teclado Logitech (6u) |7.Placa base (6u)       |13.Minecraft (15u)         |")
+    print("|2.Teclado Razer (5u)    |8.Ryzen 7 7700X (8u)    |14.GTA VI (45u)            |")
+    print("|3.Mouse Logitech (4u)   |9.Intel i7-13700KF (9u) |15.Sons of the Forest (4u) |")
+    print("|4.Mouse Tempest (7u)    |10.RTX 4060 Ti (2u)     |16.F1 2023 (78u)           |")
+    print("|5.Headset Logitech (3u) |11.RAM 16 GB dual (10)  |17.Fortnite (120u)         |")
+    print("|6.Headset Corsair (6u)  |12.SSD 512 GB (12u)     |18.Valorant (496u)         |")
+    print("|-----------------------------------------------------------------------------|")
+
+
 
 #Interfaz de inicio para el cliente
 while True:
