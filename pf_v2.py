@@ -19,10 +19,8 @@ complejidad_temporal = 0
 
 def imprimir_menu():
     print("\n----- Menú de Frutas -----")
-    i = 1
-    for fruta, cantidad in inventario.items():
+    for i, (fruta, cantidad) in enumerate(inventario.items(), start=1):
         print(f"{i}. {fruta}: {cantidad} unidades")
-        i += 1
     print("--------------------------")
 
 def agregar_pedido():
@@ -30,7 +28,7 @@ def agregar_pedido():
     opcion = int(input("Seleccione el número de la fruta que desea pedir: "))
     
     frutas = list(inventario.keys())
-    if opcion >= 1 and opcion <= len(frutas):
+    if 1 <= opcion <= len(frutas):
         fruta = frutas[opcion - 1]
         cantidad = int(input("Ingrese la cantidad que desea: "))
         pedido = (fruta, cantidad)
@@ -40,7 +38,7 @@ def agregar_pedido():
         print("Opción inválida. Intente de nuevo.")
 
 def validar_pedido_recursivo():
-    global complejidad_temporal  # Agregar referencia a la variable global
+    global complejidad_temporal
 
     if cola_pedidos.empty():
         print("No hay pedidos en espera.")
@@ -53,15 +51,14 @@ def validar_pedido_recursivo():
         print("Pedido válido.")
         lista_pedidos.append(pedido)
         inventario[fruta] -= cantidad
-        # Cálculo de la complejidad temporal para el procesamiento del producto actual
-        complejidad_temporal += 1
+        complejidad_temporal += cantidad  # Se incrementa la complejidad temporal en función de la cantidad de productos
     else:
         print("No existe o no hay suficientes unidades disponibles.")
     
-    validar_pedido_recursivo()  # Llamada recursiva para procesar el siguiente pedido en la cola
+    validar_pedido_recursivo()
 
 def validar_pedido_fuerza_bruta():
-    global complejidad_temporal  # Agregar referencia a la variable global
+    global complejidad_temporal
 
     if cola_pedidos.empty():
         print("No hay pedidos en espera.")
@@ -70,21 +67,23 @@ def validar_pedido_fuerza_bruta():
     while not cola_pedidos.empty():
         pedido = cola_pedidos.get()
         fruta, cantidad = pedido
+        productos_validos = True
 
-        if fruta in inventario and cantidad <= inventario[fruta]:
-            print("Pedido válido.")
+        if fruta not in inventario or cantidad > inventario[fruta]:
+            productos_validos = False
+
+        if productos_validos:
+            for _ in range(cantidad):
+                inventario[fruta] -= 1
+                complejidad_temporal += 1
             lista_pedidos.append(pedido)
-            inventario[fruta] -= cantidad
+            print("Pedido válido.")
         else:
             print("No existe o no hay suficientes unidades disponibles.")
-        
-        # Cálculo de la complejidad temporal para el procesamiento del producto actual
-        complejidad_temporal += 1
 
 def imprimir_lista():
     print("----- Lista de Pedidos -----")
-    for pedido in lista_pedidos:
-        fruta, cantidad = pedido
+    for fruta, cantidad in lista_pedidos:
         print(f"{fruta}: {cantidad}")
     print("-----------------------------")
 
@@ -109,8 +108,10 @@ while True:
         opcion_procesamiento = int(input("Seleccione una opción de procesamiento: "))
         if opcion_procesamiento == 1:
             validar_pedido_recursivo()
+            print("Complejidad temporal del procesamiento de pedidos:", complejidad_temporal)
         elif opcion_procesamiento == 2:
             validar_pedido_fuerza_bruta()
+            print("Complejidad temporal del procesamiento de pedidos:", complejidad_temporal)
         else:
             print("Opción inválida. Intente de nuevo.")
     elif opcion == 4:
@@ -120,7 +121,4 @@ while True:
     else:
         print("Opción inválida. Intente de nuevo.")
 
-print("Gracias por utilizar la tienda online:)\nSé feliz como una lombriz ♫ ♫")
-
-# Imprimir la complejidad temporal del procesamiento de los pedidos
-print("Complejidad temporal del procesamiento de pedidos:", complejidad_temporal)
+print("Gracias por utilizar la tienda online :)\nSé feliz como una lombriz ♫ ♫")

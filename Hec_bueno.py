@@ -1,3 +1,10 @@
+
+
+
+#No mover ni cambiar nada de este archivo es nuestra copia de seguridad
+
+
+
 from queue import Queue
 
 # Inventario de frutas
