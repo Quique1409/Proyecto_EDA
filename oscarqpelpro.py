@@ -14,9 +14,6 @@ cola_pedidos = Queue()
 # Lista de pedidos validados
 lista_pedidos = []
 
-# Variable para almacenar la complejidad temporal
-complejidad_temporal = 0
-
 def imprimir_menu():
     print("\n----- Menú de Frutas -----")
     i = 1
@@ -40,8 +37,6 @@ def agregar_pedido():
         print("Opción inválida. Intente de nuevo.")
 
 def validar_pedido_recursivo():
-    global complejidad_temporal  # Agregar referencia a la variable global
-
     if cola_pedidos.empty():
         print("No hay pedidos en espera.")
         return
@@ -56,31 +51,23 @@ def validar_pedido_recursivo():
     else:
         print("No existe o no hay suficientes unidades disponibles.")
     
-    # Cálculo de la complejidad temporal para el procesamiento del producto actual
-    complejidad_temporal += 1
-    
     validar_pedido_recursivo()  # Llamada recursiva para procesar el siguiente pedido en la cola
 
 def validar_pedido_fuerza_bruta():
-    global complejidad_temporal  # Agregar referencia a la variable global
-
     if cola_pedidos.empty():
         print("No hay pedidos en espera.")
         return
     
-    while not cola_pedidos.empty():
-        pedido = cola_pedidos.get()
-        fruta, cantidad = pedido
+        while not cola_pedidos.empty():
+            pedido = cola_pedidos.get()
+            fruta, cantidad = pedido
 
-        if fruta in inventario and cantidad <= inventario[fruta]:
-            print("Pedido válido.")
-            lista_pedidos.append(pedido)
-            inventario[fruta] -= cantidad
-        else:
-            print("No existe o no hay suficientes unidades disponibles.")
-        
-        # Cálculo de la complejidad temporal para el procesamiento del producto actual
-        complejidad_temporal += 1
+            if fruta in inventario and cantidad <= inventario[fruta]:
+                print("Pedido válido.")
+                lista_pedidos.append(pedido)
+                inventario[fruta] -= cantidad
+            else:
+                print("No existe o no hay suficientes unidades disponibles.")
 
 def imprimir_lista():
     print("----- Lista de Pedidos -----")
@@ -122,6 +109,3 @@ while True:
         print("Opción inválida. Intente de nuevo.")
 
 print("Gracias por utilizar la tienda online:)\nSé feliz como una lombriz ♫ ♫")
-
-# Imprimir la complejidad temporal del procesamiento de los pedidos
-print("Complejidad temporal del procesamiento de pedidos:", complejidad_temporal)
