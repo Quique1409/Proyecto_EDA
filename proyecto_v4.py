@@ -1,8 +1,11 @@
 # proyecto_v1 final
 # Tienda en linea de componentes para computadoras |puede cambiar la tematica | (Escoger nombre de empresa)
+
 #Importaciones necesarias
 from collections import deque
-
+#Crear la cola y la lista
+cola_pedidos = deque()
+pedidos_procesados = []
 #Definicion de funciones
 def switch_case_principal(case):
     #Funcion switch_case para opciones en el  menu
@@ -33,6 +36,7 @@ def inventario_usuario():
     print("|-----------------------------------------------------------------------------|\n")
 
 def gestionar_inventario():
+    # Definición del inventario como una lista de diccionarios
     inventario = [
         {'codigo': '1', 'nombre': 'Teclado Logitech', 'cantidad': 6},
         {'codigo': '2', 'nombre': 'Teclado Razer', 'cantidad': 5},
@@ -50,13 +54,15 @@ def gestionar_inventario():
         {'codigo': '14', 'nombre': 'GTA VI', 'cantidad': 45},
         {'codigo': '15', 'nombre': 'Sons of the Forest', 'cantidad': 4},
         {'codigo': '16', 'nombre': 'F1 2023', 'cantidad': 78},
-        {'codigo': '17', 'nombre': 'Fornite', 'cantidad': 120},
+        {'codigo': '17', 'nombre': 'Fortnite', 'cantidad': 120},
         {'codigo': '18', 'nombre': 'Valorant', 'cantidad': 496},
     ]
 
+    # Creación del carrito como una cola (deque)
     carrito = deque()
 
     while True:
+        # Mostrar el inventario y el carrito
         inventario_usuario()
 
         print("\n=== Carrito ===")
@@ -69,7 +75,7 @@ def gestionar_inventario():
                 print(f"{codigo}\t{nombre}\t\t{cantidad}")
         else:
             print("El carrito está vacío.")
-
+        # Mostrar las opciones y solicitar la entrada del usuario
         print("\n¿Qué deseas hacer?")
         print("1. Agregar producto al carrito")
         print("2. Eliminar producto del carrito")
@@ -79,6 +85,7 @@ def gestionar_inventario():
         opcion_menu = input("Ingresa el número de opción: ")
 
         if opcion_menu == '1':
+            # Agregar producto al carrito
             codigo = input("Ingresa el código del producto que deseas agregar: ")
             producto = next((p for p in inventario if p['codigo'] == codigo), None)
             if producto:
@@ -94,6 +101,7 @@ def gestionar_inventario():
             else:
                 print("El código de producto ingresado no existe en el inventario.")
         elif opcion_menu == '2':
+            # Eliminar producto del carrito
             codigo = input("Ingresa el código del producto que deseas eliminar: ")
             producto = next((p for p in carrito if p['codigo'] == codigo), None)
             if producto:
@@ -105,6 +113,7 @@ def gestionar_inventario():
             else:
                 print("El código de producto ingresado no existe en el carrito.")
         elif opcion_menu == '3':
+            # Realizar la compra
             total = 0
             print("\n=== Detalles de compra ===")
             if carrito:
@@ -118,13 +127,17 @@ def gestionar_inventario():
                     total += subtotal
 
                 print(f"\nTotal de la compra: {total}")
+                cola_pedidos.extend(carrito)
+                print("Productos agregados a la cola de pedidos:", carrito)
                 carrito.clear()
                 print("¡Gracias por tu compra!")
             else:
                 print("El carrito está vacío. No se puede realizar la compra.")
         elif opcion_menu == '4':
+            # Salir del programa
             break
         else:
+            # Opción inválida
             print("Opción inválida. Por favor, selecciona una opción válida.")
 
 
@@ -145,3 +158,4 @@ while True:
     #SI se cumple esta condicion se para el bucle
     if opcion >= 1 and opcion <=3:
         break
+    
